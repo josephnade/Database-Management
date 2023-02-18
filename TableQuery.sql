@@ -1,0 +1,219 @@
+CREATE DATABASE OnlineBankingFinalProject;
+
+USE OnlineBankingFinalProject;
+
+/*CREATE TABLE PERSONAL*/
+CREATE TABLE Personal(
+Person_no CHAR(10) not null,
+Fname VARCHAR(20) not null,
+Lname VARCHAR(20) not null,
+Birthdate DATE not null,
+Birthplace VARCHAR(20) not null,
+Address VARCHAR(40) not null,
+ID_no CHAR(11) not null,
+PRIMARY KEY(Person_no, ID_no)
+);
+
+/*CREATE TABLE USERS*/
+CREATE TABLE Users(
+IBAN_no CHAR(12) not null,
+Person_no CHAR(10) not null,
+Income DECIMAL(6,1) not null,
+PRIMARY KEY(IBAN_no),
+FOREIGN KEY(Person_no) REFERENCES Personal(Person_no) 
+);
+
+/*CREATE TABLE PROPERTY*/
+ CREATE TABLE property(
+ IBAN_no CHAR(12) not null,
+ ETLR INTEGER not null,
+ GARAN INTEGER NOT NULL,
+ DOLAR INTEGER  NOT NULL,
+ EURO INTEGER  NOT NULL,
+ GOLD_gr INTEGER  NOT NULL,
+ SILVER_gr INTEGER  NOT NULL,
+ FOREIGN KEY(IBAN_no) REFERENCES users(IBAN_no)
+ );
+ 
+ /*CREATE TABLE STOCK*/
+ CREATE TABLE stock(
+Company_name VARCHAR(20) not null,
+Company_code VARCHAR(20) not null,
+Instant_stock_price DECIMAL(4,2) not null,
+Instant_stock_sale_price DECIMAL(4,2) not null,
+PRIMARY KEY(Company_code)
+ );
+ 
+ /*CREATE TABLE CURRENCY*/
+ CREATE TABLE currency(
+ Currency_name VARCHAR(20) NOT NULL,
+ Currency_price DECIMAL(3,1) NOT NULL, 
+ Currency_sale_price DECIMAL(3,1) NOT NULL
+ );
+ 
+ /*CREATE TABLE COMMODITY*/
+  CREATE TABLE commodity(
+ Commodity_name VARCHAR(20) NOT NULL,
+ Commodity_price DECIMAL(4,1) NOT NULL, 
+ Commodity_sale_price DECIMAL(4,1) NOT NULL 
+);
+
+/*CREATE TABLE CHECKING ACCOUNT*/
+CREATE TABLE checking_account(
+ IBAN_no CHAR(12) not null,
+ Balance DECIMAL(6,1) not null,
+ FOREIGN KEY(IBAN_no) REFERENCES users(IBAN_no)
+ );
+ 
+ /*CREATE TABLE LOGIN INFO*/
+ CREATE TABLE login_info(
+ ID_no	CHAR(11) not null,
+ IBAN_no	CHAR(12) not null,
+ Security_no	CHAR(3) not null,
+ Login_password	CHAR(4) not null
+);
+
+/*CREATE TABLE CREDIT CARD*/
+CREATE TABLE credit_card(
+ ID_no CHAR(11) not null,
+ Credit_card_no	CHAR(12) not null,
+ Credit_card_limit DECIMAL(6,1) not null,
+ PRIMARY KEY(Credit_card_no)
+);
+
+/*CREATE TABLE STAFF*/
+CREATE TABLE staff(
+Staff_no CHAR(6) not null,
+Person_no CHAR(10) not null,
+Salary DECIMAL(6,1) not null,
+Department_no CHAR(5) not null,
+PRIMARY KEY(Staff_no)
+);
+
+/*CREATE TABLE DEPARTMENT*/
+CREATE TABLE department(
+Department_no CHAR(5) not null,
+Department_name VARCHAR(20) not null,
+Authority VARCHAR(20) not null,
+PRIMARY KEY(Department_no)
+);
+
+ALTER TABLE login_info
+ADD FOREIGN KEY(IBAN_no) REFERENCES users(IBAN_no);
+
+ALTER TABLE checking_account
+ADD FOREIGN KEY(IBAN_no) REFERENCES users(IBAN_no);
+
+INSERT INTO Personal
+VALUES
+('U000000001','Semih','AKIN','1998-02-13','İSTANBUL','Sarıgöl mah. Sekban sok.','11111111111'),
+('U000000002','Yusuf','AKIN','1999-07-07','DENİZLİ','Demirci mah. Fesleğen sok.','22222222222'),
+('U000000003','Ahmet','Necat','1967-09-16','GAZİANTEP','Çınarlı mah. akgün sok.','33333333333'),
+('U000000004','Mehmet','Baturalp','1984-01-12','ISPARTA','Altıncıoğlu mah. ÇİPETPET cad.','44444444444'),
+('U000000005','Beril','Çalışkan','1997-01-26','ANTALYA','Karlıtepe mah. bakır sk.','55555555555'),
+('S000000001','Seyit','Onbaşı','1938-11-10','Ankara','Atatürk mah. Gazi cad.','66666666666'),
+('S000000002','İpek','Ulusoy','1994-04-12','İzmir','Alsancak Çınar sok.','77777777777'),
+('S000000003','Elize','Hamitoğlu','1999-06-22','Hatay','Kara mah. Çakır cad.','88888888888'),
+('S000000004','Simay','Özkut','1999-02-17','Manisa','Sekizhavuz mah. Ordu sok.','99999999999'),
+('S000000005','Elif','Çınar','1980-12-07','Muğla','Bodrum','00000000000');
+
+INSERT INTO Users
+VALUES
+('100000000001','U000000001',12789),
+('100000000002','U000000002',16000),
+('100000000003','U000000003',12600),
+('100000000004','U000000004',16900),
+('100000000005','U000000005',10100),
+('100000000006','S000000001',18750),
+('100000000007','S000000002',20450),
+('100000000008','S000000003',6000),
+('100000000009','S000000004',11200),
+('100000000010','S000000005',26800);
+
+INSERT INTO staff(Staff_no,Person_no,Salary,Department_no)
+VALUES
+('100001','S000000001',18750,'D0001'),
+('100002','S000000002',20450,'D0001'),
+('100003','S000000003',6000,'D0001'),
+('100004','S000000004',11200,'D0001'),
+('100005','S000000005',26800,'D0001');
+
+INSERT INTO property
+VALUES
+('100000000001',12,23,4,5,66,100),
+('100000000002',15,29,4,7,0,90),
+('100000000003',20,40,100,25,50,50),
+('100000000004',9,20,40,52,66,90),
+('100000000005',20,60,50,30,20,50),
+('100000000006',6,26,34,12,74,99),
+('100000000007',0,0,0,0,6,1),
+('100000000008',0,0,0,0,0,0),
+('100000000009',200,400,100,1000,86,1000),
+('100000000010',11,23,142,21,500,5);
+
+
+INSERT INTO department
+VALUES
+('D0001','MANAGER','ULTIMATE ACCESS'),
+('D0002','MANAGER','LIMITED ACCESS');
+
+
+INSERT INTO stock
+VALUES
+('ETILER','ETLR',5.1,5.09),
+('GARANTI','GARAN',6.7,6.66);
+
+
+
+INSERT INTO commondity
+VALUES
+('Altın(gr)',500,497),
+('Gümüş(gr)',50,49);
+
+
+INSERT INTO currency 
+VALUES
+('Dolar',8.5,8.4),
+('Euro',10.2,10.1);
+
+
+INSERT INTO login_info
+VALUES
+('11111111111','100000000001','111','1234'),
+('22222222222','100000000002','222','2345'),
+('33333333333','100000000003','333','4321'),
+('44444444444','100000000004','444','1234'),
+('55555555555','100000000005','555','2345'),
+('66666666666','100000000006','666','1234'),
+('77777777777','100000000007','777','2345'),
+('88888888888','100000000008','888','1234'),
+('99999999999','100000000009','999','2345'),
+('00000000000','100000000010','000','1234');
+
+
+
+INSERT INTO credit_card
+VALUES
+('11111111111','123412341234',12511),
+('22222222222','234523452345',15000),
+('33333333333','152564855125',10000),
+('44444444444','363215516595',9000),
+('55555555555','987454212151',5650),
+('66666666666','102325659848',2500),
+('77777777777','805604505214',9900),
+('88888888888','506594126565',19000),
+('99999999999','990654133665',7500),
+('00000000000','406165465655',3500);
+
+INSERT INTO checking_account
+VALUES
+('100000000001',55560),
+('100000000002',16000),
+('100000000003',12678),
+('100000000004',16050),
+('100000000005',12000),
+('100000000006',14000),
+('100000000007',26780),
+('100000000008',15200),
+('100000000009',16008),
+('100000000010',19565);
